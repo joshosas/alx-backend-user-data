@@ -27,20 +27,20 @@ if auth_type == 'basic_auth':
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
+    """ Not found handler - returns a 404 error
     """
     return jsonify({"error": "Not found"}), 404
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """Unauthorized handler.
+    """Unauthorized handler - returns a 401 error.
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """Forbidden handler.
+    """Forbidden handler - returns a 403 error.
     """
     return jsonify({"error": "Forbidden"}), 403
 
