@@ -27,7 +27,7 @@ class DB:
     def _session(self) -> Session:
         """Memoized session object.
         """
-        
+
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
@@ -44,7 +44,7 @@ class DB:
             self._session.rollback()
             new_user = None
         return new_user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """Finds a user based on a set of filters.
            Raise Errors for invalid kwargs or No Result
@@ -62,7 +62,7 @@ class DB:
         if result is None:
             raise NoResultFound()
         return result
-    
+
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a user based on a given id.
         """

@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""A module for authentication routines.
+   Packages: 'bcrypt'
+"""
+import bcrypt
+from uuid import uuid4
+from typing import Union
+from sqlalchemy.orm.exc import NoResultFound
+
+from db import DB
+from user import User
+
+
+def _hash_password(password: str) -> bytes:
+    """Hashes a password using bcrypt.
+    """
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
+def _generate_uuid() -> str:
+    """Generates a UUID.
+    """
+    return str(uuid4())
+
+
+class Auth:
+    """Auth Class for interaction with database authentication.
+    """
+
+    def __init__(self):
+        """Initializes a new Auth instance.
+        """
+        self._db = DB()
+
+    def register_user(self, email: str, password: str) -> User:
+        """Adds a new user to the database.
+        """
+        try:
+            self._db.find_user_by(email=email)
+        except NoResultFound:
+            return self._db.add_user(email, _hash_password(password))
+        raise ValueError("User {} already exists".format(email))
